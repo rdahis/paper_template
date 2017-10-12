@@ -39,6 +39,9 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 - Any code that manipulates build data and performs analysis should be put here.
 - All output should be redirected into `/output`. Ideally as a single data file called, say, `data.dta`.
 - Keep code clean and modularized.
+
+  `/sub`
+  - Holds modularized code to implement subroutines.
   
 #### `/input`
 - Any original data source should be included here in clean and normalized form.

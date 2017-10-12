@@ -1,10 +1,11 @@
 
-This folder provides an all-encompassing working structure for empirical papers. It organizes every step of the process: merging and cleaning (several) data sets, performing analyses (tables, figures, regressions), writing the article itself and also presentations.
+This folder provides an all-encompassing working structure for empirical papers.  
+It organizes every step of the process: merging and cleaning (several) data sets, performing analyses (tables, figures, regressions), writing the article itself and also presentations.
 
-This file explains in more detail the folder structure and how you can take the most advantage of it. For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences.
+This file explains in more detail the folder structure and how you can take the most advantage of it.  
+For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences.
 
-Author: Ricardo Dahis
-
+Author: Ricardo Dahis  
 Contact: rdahis@u.northwestern.edu
 
 Last Update: 2017/10/12

@@ -71,10 +71,8 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 - Recommended auxiliary program: Mendeley.
 
 ##### `/tex`
-
-Where the juice is produced.
-
-Contains all .tex files for preliminary results, the paper and presentations.
+- Where the juice is produced.
+- Contains all .tex files for preliminary results, the paper and presentations.
 
   `/sub`
   - Curated set of packages and shortcuts commonly used in Social Science papers and presentations.

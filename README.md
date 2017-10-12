@@ -3,9 +3,8 @@ This folder provides an all-encompassing working structure for empirical papers.
 
 This file explains in more detail the folder structure and how you can take the most advantage of it. For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences.
 
-Enjoy. =)
-
 Author: Ricardo Dahis
+
 Contact: rdahis@u.northwestern.edu
 
 Last Update: 2017/10/12
@@ -23,17 +22,17 @@ Last Update: 2017/10/12
 ## 0. Requirements
 
 This workflow requires:
-- Python 2 [Free] (www.python.org)
-- Bash [Free] (www.gnu.org/software/bash/)
-- Stata [Licensed] (www.stata.com)
-- LaTeX [Free] (www.latex-project.org)
+- [Python 2](www.python.org) [Free] 
+- [Bash](www.gnu.org/software/bash/) [Free]
+- [Stata](www.stata.com) [Licensed]
+- [LaTeX](www.latex-project.org) [Free]
 
 Other great languages and softwares may also be used.
-- R [Free] (www.r-project.org)
-- Matlab [Licensed] (www.mathworks.com/products/matlab)
-- Python [Free] (www.python.org)
+- [R](www.r-project.org) [Free]
+- [Matlab](www.mathworks.com/products/matlab) [Licensed]
+- [Python](www.python.org) [Free]
 
-For now it's only adapted for OSX (Apple) environments. Feel free to adapt it to Windows (and please share it with me!).
+For now it's only adapted for OSX (Apple) environments. But feel free to adapt it to Windows (and please share it with me!).
 
 
 
@@ -41,23 +40,28 @@ For now it's only adapted for OSX (Apple) environments. Feel free to adapt it to
 ## 1. Folders
 
 `/build`
+
 	Contains the building process of the data set used in the /analysis.
 
 	`/input`
+	
 	Any original data source should be included here in clean and normalized form.
 	Only include cleaned files. Raw external files should be cleaned in each data source specific folder.
 	These data sets will then be manipulated and merged by the files in /code.
 	
 	`/code`
+	
 	Any code that manipulates build data should be put here.
 	The final product should be (ideally) a single data file saved into /output.
 	Keep code clean and modularized.
 	
 	`/output`
+	
 	Holds the final data set, to be then used in /analysis.
 	Forcing separation between /build/output and /analysis/input to ensure consistency.
-
+	
 	`/tmp`
+	
 	Contains any temporary file created during the manipulation of input data sets.
 
 `/analysis`

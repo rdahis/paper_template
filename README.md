@@ -5,6 +5,8 @@ It organizes every step of the process: merging and cleaning (several) data sets
 This file explains in more detail the folder structure and how you can take the most advantage of it.  
 For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences.
 
+To use it, simply download it and adapt it to your own project!
+
 Author: Ricardo Dahis  
 Contact: rdahis@u.northwestern.edu
 

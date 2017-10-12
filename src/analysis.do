@@ -12,24 +12,24 @@
 // Shortcuts
 //----------------------------------------------------------------------------//
 
-global person=""
+global person = ""
 
-if "$person"=="" global path /path_to_paper/paper
+if "$person"=="" global path /path/to/main_paper
 
 
 //----------------------------------------------------------------------------//
 // Preface
 //----------------------------------------------------------------------------//
 
-log using "$path/analysis/output/analysis.log"
-
 clear all
 set more off
-* set graphics off
+cap log close
 
-cd "$path/analysis"
+cd "$path"
 
-use "input/data.dta", clear
+log using "output/analysis.log"
+
+use "output/data.dta", clear
 
 
 //----------------------------------------------------------------------------//
@@ -37,10 +37,10 @@ use "input/data.dta", clear
 //----------------------------------------------------------------------------//
 
 // Tables
-	do "code/sub/analysis_tables.do"
+	do "src/sub/analysis_tables.do"
 // Figures
-	do "code/sub/analysis_figures.do"
+	do "src/sub/analysis_figures.do"
 // Regressions
-	do "code/sub/analysis_regressions.do"
+	do "src/sub/analysis_regressions.do"
 
 log close

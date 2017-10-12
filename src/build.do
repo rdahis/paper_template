@@ -13,21 +13,23 @@
 // Shortcuts
 //----------------------------------------------------------------------------//
 
-global person=""
+global person = ""
 
-if "$person"=="" global path /path_to_paper/paper
+if "$person" == "" global path /path/to/main_paper
 
 
 //----------------------------------------------------------------------------//
 // Preface
 //----------------------------------------------------------------------------//
 
-log using "$path/build/output/build.log"
 
 clear all
 set more off
-* set graphics off
-cd "$path/build"
+cap log close
+
+cd "$path"
+
+log using "output/build.log"
 
 
 //----------------------------------------------------------------------------//
@@ -35,11 +37,11 @@ cd "$path/build"
 //----------------------------------------------------------------------------//
 
 // Build
-	do "code/sub/build_datasets.do"
+	do "src/sub/build_datasets.do"
 // Merge
-	do "code/sub/build_merge.do"
+	do "src/sub/build_merge.do"
 // Covariates
-	do "code/sub/build_covariates.do"
+	do "src/sub/build_covariates.do"
 // Compress and Save
 	compress
 	save "output/data.dta", replace

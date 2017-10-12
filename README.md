@@ -8,11 +8,6 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 
 **To use it**: simply download it and adapt it to your own project!
 
-Author: Ricardo Dahis  
-Contact: rdahis@u.northwestern.edu
-
-Last Update: 2017/10/12
-
 
 ## Summary
 0. Requirements

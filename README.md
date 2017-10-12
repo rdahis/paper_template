@@ -39,28 +39,32 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 
 ## 1. Folders
 
-`/build`
+### `/build`
 
-	Contains the building process of the data set used in the /analysis.
+Contains the building process of the data set used in the `/analysis`.
 
-	`/input`
+#### `/build/input`
 	
-	Any original data source should be included here in clean and normalized form.
-	Only include cleaned files. Raw external files should be cleaned in each data source specific folder.
-	These data sets will then be manipulated and merged by the files in /code.
+Any original data source should be included here in clean and normalized form.
+
+Only include cleaned files. Raw external files should be cleaned in each data source specific folder.
+
+These data sets will then be manipulated and merged by the files in /code.
 	
-	`/code`
+#### `/build/code`
 	
-	Any code that manipulates build data should be put here.
-	The final product should be (ideally) a single data file saved into /output.
-	Keep code clean and modularized.
+Any code that manipulates build data should be put here.
+
+The final product should be (ideally) a single data file saved into /output.
+
+Keep code clean and modularized.
 	
-	`/output`
+#### `/build/output`
 	
 	Holds the final data set, to be then used in /analysis.
 	Forcing separation between /build/output and /analysis/input to ensure consistency.
 	
-	`/tmp`
+#### `/build/tmp`
 	
 	Contains any temporary file created during the manipulation of input data sets.
 

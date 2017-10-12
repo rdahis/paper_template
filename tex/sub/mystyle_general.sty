@@ -1,0 +1,33 @@
+
+\ProvidesPackage{mystyle_general}
+
+% Input
+\usepackage[english, american]{babel}
+
+%\usepackage[cmintegrals,cmbraces]{newtxmath}
+%\usepackage{ebgaramond-maths}
+\usepackage{ebgaramond}
+\usepackage[T1]{fontenc}
+
+% Tables and Figures
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tikz-cd}
+\usepackage{transparent}
+\setbeamercovered{transparent}
+
+% Math
+\usepackage{mathtools, amsthm, amsfonts}
+	\theoremstyle{definition}
+	\newtheorem{proposition}{Proposition}
+	\newtheorem{remark}{Remark}
+	\def\argmin{\operatorname*{arg\,min}}
+	\def\argmax{\operatorname*{arg\,max}}
+	\def\b{\mathbf}
+	\def\bs{\boldsymbol}
+	\def\bb{\mathbb}
+	\def\cal{\mathcal}
+	\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+	\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}} 
+
+

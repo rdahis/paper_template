@@ -1,0 +1,41 @@
+
+from subprocess import call
+import platform
+
+system = platform.system()
+
+person = ''
+
+if person == '':
+	path = '/path/to/main_paper'
+
+if system == 'Windows':
+	pass
+else:
+    print "Cleans Output and Temporary"
+    for folder in ['/output', '/tmp']:
+        shutil.rmtree(path+folder)
+        os.mkdir(path+folder)
+        
+    print "//-- Gets Input --//"
+    call(['python', path+'/src/get_input.py'])
+
+    print "//-- Runs Build --//"
+    call(['stata', '-b', 'do' + '\"' + path+'/src/build.do'+'\" &'])
+    for file in glob.glob(path+'/*.log'):
+        os.remove(file)
+    
+    print "//-- Runs Analysis --//"
+    call(['stata', '-b', 'do' + '\"' + path+'/src/analysis.do'+'\" &'])
+    for file in glob.glob(path+'/*.log'):
+        os.remove(file)
+    
+	print "//-- Compiles TeX --//"
+	call(['latexmk', path+'/tex/paper/main_article.tex')
+
+	print "Congratulations, you have a shiny new paper!"
+
+
+
+
+

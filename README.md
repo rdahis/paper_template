@@ -3,7 +3,7 @@ This folder provides an all-encompassing working structure for empirical papers.
 
 It organizes every step of the process: merging and cleaning (several) data sets, performing analyses (tables, figures, regressions), writing the article itself and also presentations.
 
-This file explains in more detail the folder structure and how you can take the most advantage of it.  
+This readme explains in more detail the folder structure and how you can take the most advantage of it.  
 For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences. For a fancier (but harder to learn) version of a paper template, see [here](https://github.com/gslab-econ/template).
 
 **To use it**: simply download it and adapt it to your own project!
@@ -14,6 +14,7 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 1. Folders
 2. Files
 3. Principles
+4. Further Reading
 
 
 ## 0. Requirements
@@ -104,4 +105,11 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 - Keep documentation lean and clean.
 - Keep this folder organized. Your future self thanks your present effort.
 
+
+
+## 4. Further Reading
+
+- [Gentzkow & Shapiro Lab's Paper Template](https://github.com/gslab-econ/template)
+- [Gentzkow & Shapiro (2014) Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
+- [Tutorial on how to combine Git and Dropbox](https://github.com/kbjarkefur/GitHubDropBox)
 

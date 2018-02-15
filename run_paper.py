@@ -4,13 +4,14 @@ import platform
 
 system = platform.system()
 
-person = ''
+person = ''     # use the person variable to keep paths in order with multiple machines being used
 
 if person == '':
 	path = '/path/to/main_paper'
 
 if system == 'Windows':
 	pass
+
 else:
     print "Cleans Output and Temporary"
     for folder in ['/output', '/tmp']:

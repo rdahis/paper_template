@@ -5,14 +5,16 @@ import shutil, os
 
 system = platform.system()
 
-person = ''
+person = ''     # use the person variable to keep paths in order with multiple machines being used
 
 if person == '':
-	path = '/path/to/main_paper'
-	path_sources = '/path/to/data_sources/data_set'
+    path = '/path/to/main_paper'
+    dataSources = ['/path/to/data_sources/data_set_1',
+                   '/path/to/data_sources/data_set_2']   # list of data sets used as input to paper
 
 if system == 'Windows':
 	pass
+
 else:
 	# Clears Input
 	folder = '/input'
@@ -20,5 +22,5 @@ else:
 	os.mkdir(path+folder)
 
 	# Copies Data
-	call(['cp', path_sources+'/.dta', path+'/input'])
-
+    for file in dataSources:
+        call(['cp', file, path+'/input'])

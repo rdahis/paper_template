@@ -1,49 +1,44 @@
 //----------------------------------------------------------------------------//
 //
-// Paper:
+// project:
 //
 // do.file: build
 //
-// Author(s):
+// author(s):
 //
 //----------------------------------------------------------------------------//
 
 
 //----------------------------------------------------------------------------//
-// Shortcuts
+// preface
 //----------------------------------------------------------------------------//
-
-global person = ""
-
-if "$person" == "" global path /path/to/main_paper
-
-
-//----------------------------------------------------------------------------//
-// Preface
-//----------------------------------------------------------------------------//
-
 
 clear all
 set more off
 cap log close
 
+if "c(username)" == "ricardodahis" global path /path/to/main_paper	// c(username) is your computer's username
+
 cd "$path"
 
-log using "output/build.log"
+log using "output/build.log", replace
 
 
 //----------------------------------------------------------------------------//
-// Main
+// main
 //----------------------------------------------------------------------------//
 
-// Build
+// build
 	do "src/sub/build_datasets.do"
-// Merge
+
+// merge
 	do "src/sub/build_merge.do"
-// Covariates
+
+// covariates
 	do "src/sub/build_covariates.do"
-// Compress and Save
+
+// compress and Save
 	compress
-	save "output/data.dta", replace
+	save "output/data/data.dta", replace
 
 log close

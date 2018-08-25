@@ -1,46 +1,42 @@
 //----------------------------------------------------------------------------//
 //
-// Paper: 
+// project: 
 //
 // do.file: analysis
 //
-// Author(s):
+// author(s):
 //
 //----------------------------------------------------------------------------//
 
-//----------------------------------------------------------------------------//
-// Shortcuts
-//----------------------------------------------------------------------------//
-
-global person = ""
-
-if "$person"=="" global path /path/to/main_paper
-
 
 //----------------------------------------------------------------------------//
-// Preface
+// preface
 //----------------------------------------------------------------------------//
 
 clear all
 set more off
 cap log close
 
+if "c(username)" == "ricardodahis" global path /path/to/main_paper	// c(username) is your computer's username
+
 cd "$path"
 
-log using "output/analysis.log"
+log using "output/analysis.log", replace
 
-use "output/data.dta", clear
+use "output/data/data.dta", clear
 
 
 //----------------------------------------------------------------------------//
-// Main
+// main
 //----------------------------------------------------------------------------//
 
-// Tables
+// tables
 	do "src/sub/analysis_tables.do"
-// Figures
+
+// figures
 	do "src/sub/analysis_figures.do"
-// Regressions
+
+// regressions
 	do "src/sub/analysis_regressions.do"
 
 log close

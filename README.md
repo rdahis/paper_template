@@ -20,15 +20,15 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 ## 0. Requirements
 
 This workflow requires:
-- [Python 2](www.python.org) [Free] 
-- [Bash](www.gnu.org/software/bash/) [Free]
-- [Stata](www.stata.com) [Licensed]
-- [LaTeX](www.latex-project.org) [Free]
+- [Python 2](https://www.python.org) [Free] 
+- [Bash](https://www.gnu.org/software/bash/) [Free]
+- [Stata](https://www.stata.com) [Licensed]
+- [LaTeX](https://www.latex-project.org) [Free]
 
 Other great languages and softwares may also be used.
-- [R](www.r-project.org) [Free]
-- [Matlab](www.mathworks.com/products/matlab) [Licensed]
-- [Python](www.python.org) [Free]
+- [R](https://www.r-project.org) [Free]
+- [Matlab](https://www.mathworks.com/products/matlab) [Licensed]
+- [Python](https://www.python.org) [Free]
 
 For now it's only adapted for OSX (Apple) environments. But feel free to adapt it to Windows (and please share it with me!).
 

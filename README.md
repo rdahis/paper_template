@@ -90,27 +90,27 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 
 ## 3. Principles
 
-- For each new project, start (1) a structured versioned folder, (2) a task manager project, and (3) a set of slides.
-        1. Copy this folder and use a version control system (e.g. [Git](https://git-scm.com/)).
-                - Keep track of multiple authors' edits.
-                - No more `report_final_v3.2b_ST_toDelete.tex`.
-                - Use branching to work simultaneously on the same code.
-        2. Start a project within a task manager. (see [Asana](https://asana.com), [Trello](https://trello.com/), [JIRA](https://www.atlassian.com/software/jira), etc).
-                - Your email inbox is not a task manager.
-                - Tasks should be actionable atoms.
-                - Set priorities, assignments, due dates, etc.
-                - Only one person should be ultimately responsible for each task.
-                - Do regular reviews and cleaning.
-        3. Slides
-                - Containing the current (summarized) version of the paper.
-                - Update it continuously. It will discipline your work.
+- For each new project, start (i) a structured versioned folder, (ii) a task manager project, and (iii) a set of slides.
+	1. Copy this folder and use a version control system (e.g. [Git](https://git-scm.com/)).
+		* Keep track of multiple authors' edits.
+		* No more `report_final_v3.2b_ST_toDelete.tex`.
+		* Use branching to work simultaneously on the same code.
+	2. Start a project within a task manager. (see [Asana](https://asana.com), [Trello](https://trello.com/), [JIRA](https://www.atlassian.com/software/jira), etc).
+		* Your email inbox is not a task manager.
+		* Tasks should be actionable atoms.
+		* Set priorities, assignments, due dates, etc.
+		* Only one person should be ultimately responsible for each task.
+		* Do regular reviews and cleaning.
+	3. Slides
+		* Containing the current (summarized) version of the paper.
+		* Update it continuously. It will discipline your work.
 - Keep two folders: `/papers`, and `/data`.
-        1. Papers.
-                - Each folder within `/papers` is paper.
-        2. Data.
-                - Each folder within `/data` is a data set.
-                - Use the same structure for cleaning these datasets (`/input`, `/src`, `/output`, `/tmp`)
-                - Then use `/main_paper/src/get_input.py` to copy original datasets.
+	1. Papers.
+		* Each folder within `/papers` is paper.
+	2. Data.
+		* Each folder within `/data` is a data set.
+		* Use the same structure for cleaning these datasets (`/input`, `/src`, `/output`, `/tmp`)
+		* Then use `/main_paper/src/get_input.py` to copy original datasets.
 - Use a good text editor (I recommend [vim](http://www.vim.org/), [Sublime Text](https://www.sublimetext.com/) or [Notepad ++](https://notepad-plus-plus.org/)).
 - Use a modern and flexible communication tool (see [Slack](https://slack.com)).
 - Keep documentation lean and clean.

@@ -14,6 +14,7 @@
 //----------------------------------------------------------------------------//
 
 clear all
+clear programs
 set more off
 cap log close
 

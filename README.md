@@ -10,14 +10,19 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 
 
 ## Summary
-0. Requirements
-1. Folders
-2. Files
-3. Principles
-4. Further Reading
+0. Workflow
+1. Requirements
+2. Folders
+3. Files
+4. Principles
+5. Further Reading
 
 
-## 0. Requirements
+## 0. Workflow
+
+![](extra/workflow.pdf?raw=true)
+
+## 1. Requirements
 
 This workflow requires:
 - [Python 2](https://www.python.org) [Free] 
@@ -33,7 +38,7 @@ Other great languages and softwares may also be used.
 For now it's only adapted for OSX (Apple) environments. But feel free to adapt it to Windows (and please share it with me!).
 
 
-## 1. Folders
+## 2. Folders
 
 ##### `/src`
 - Any code that manipulates build data and performs analysis should be put here.
@@ -66,15 +71,15 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
   - Author 1 & Author 2 (Journal, Year) Title with Capitalized First Letters.pdf
 - Recommended auxiliary program: Mendeley.
 
-##### `/tex`
+##### `/products`
 - Where the juice is produced.
-- Contains all .tex files for preliminary results, the paper and presentations.
+- Contains all files on preliminary results, the paper itself and presentations.
 
   `/sub`
   - Curated set of packages and shortcuts commonly used in Social Science papers and presentations.
 
 
-## 2. Files
+## 3. Files
 
 ##### `run_paper.py`
 - Automates the whole paper construction.
@@ -88,7 +93,7 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 
 
 
-## 3. Principles
+## 4. Principles
 
 - For each new project, start (i) a structured versioned folder, (ii) a task manager project, and (iii) a set of slides.
 	1. Copy this folder and use a version control system (e.g. [Git](https://git-scm.com/)).
@@ -113,12 +118,13 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 		* Then use `/main_paper/src/get_input.py` to copy original datasets.
 - Use a good text editor (I recommend [vim](http://www.vim.org/), [Sublime Text](https://www.sublimetext.com/) or [Notepad ++](https://notepad-plus-plus.org/)).
 - Use a modern and flexible communication tool (see [Slack](https://slack.com)).
+- Use a good reference/citation manager (I recommend [Mendeley](https://www.mendeley.com)). Let Mendeley (1) watch a downloads folder, (2) automatically organize every paper into a separate maintained folder in the cloud (Dropbox, Google Drive, etc.), and (3) keep a .bib file with all formatted citations in a `/references` folder. Let each paper be named "Author - Year - Title" (so you can search for PDFs efficiently). If you have a tablet to read and annotate papers, sync your reader (I recommend [PDF Expert(https://pdfexpert.com/)) to this folder. This way, all your annotations will automatically remain synced with Mendeley.
 - Keep documentation lean and clean.
 - Keep this folder organized. Your future self thanks your present effort.
 
 
 
-## 4. Further Reading
+## 5. Further Reading
 
 - [Gentzkow & Shapiro (2014) Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
 - [Gentzkow & Shapiro Lab's Paper Template](https://github.com/gslab-econ/template)

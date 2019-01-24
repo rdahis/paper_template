@@ -20,8 +20,9 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 
 ## 0. Workflow
 
-![](https://raw.githubusercontent.com/rdahis/main_paper/master/extra/workflow.pdf)
-![](/extra/workflow.pdf)
+![a](https://github.com/rdahis/main_paper/raw/master/extra/workflow.pdf)
+![a](https://raw.githubusercontent.com/rdahis/main_paper/master/extra/workflow.pdf)
+![a](./extra/workflow.pdf)
 
 ## 1. Requirements
 

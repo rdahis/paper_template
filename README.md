@@ -4,7 +4,7 @@ This folder provides an all-encompassing working structure for empirical papers.
 It organizes every step of the process: merging and cleaning (several) data sets, performing analyses (tables, figures, regressions), writing the article itself and also presentations.
 
 This readme explains in more detail the folder structure and how you can take the most advantage of it.  
-For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences. For a fancier (but harder to learn) version of a paper template, see [here](https://github.com/gslab-econ/template).
+For more information, see Gentzknow & Shapiro (2014) Code and Data for the Social Sciences.
 
 **To use it**: simply download it and adapt it to your own project!
 

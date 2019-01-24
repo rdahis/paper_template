@@ -1,0 +1,43 @@
+\documentclass[12pt, a4paper]{article}
+
+% Packages and Formatting
+\usepackage{../sub/mystyle_general}
+\usepackage{../sub/mystyle_article}
+
+
+\title{Hello World!}
+\author{}
+\date{}
+%\affil{}
+
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+\clearpage\maketitle
+\thispagestyle{empty}
+\begin{abstract}
+\end{abstract}
+\end{titlepage}
+
+% Introduction
+	\section{Introduction} \label{sec:introduction}
+	\input{./sub/introduction.tex}
+% Section
+	\section{Section} \label{sec:}
+	\input{./sub/section.tex}
+% Conclusion
+	\section{Conclusion} \label{sec:conclusion}
+	\input{./sub/conclusion.tex}
+% References
+	\newpage
+	\bibliographystyle{apa}
+	\bibliography{}
+% Appendix
+	\newpage
+	\appendix
+	\section{Appendix} \label{sec:appendix}
+	\input{./sub/appendix.tex}
+
+\end{document}

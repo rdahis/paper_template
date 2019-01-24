@@ -1,0 +1,36 @@
+
+\ProvidesPackage{mystyle_general}
+
+% Input
+\usepackage[english, american]{babel}
+
+% References
+\usepackage{natbib}
+
+\usepackage{ebgaramond}
+\usepackage[T1]{fontenc}
+
+% Tables and Figures
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{graphicx}
+\usepackage{tikz}
+	\usetikzlibrary{snakes}
+
+% Math
+\usepackage{mathtools, amsthm, amsfonts}
+	\theoremstyle{definition}
+	\newtheorem{proposition}{Proposition}
+	\newtheorem{remark}{Remark}
+	\def\argmin{\operatorname*{arg\,min}}
+	\def\argmax{\operatorname*{arg\,max}}
+	\def\b{\mathbf}
+	\def\bs{\boldsymbol}
+	\def\bb{\mathbb}
+	\def\cal{\mathcal}
+	\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+	\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}} 
+
+

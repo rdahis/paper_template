@@ -91,7 +91,7 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 		* Keep track of multiple authors' edits.
 		* No more `report_final_v3.2b_ST_toDelete.tex`.
 		* Use branching to work simultaneously on the same code.
-	2. Start a project within a task manager. (see [Asana](https://asana.com), [Trello](https://trello.com/), [JIRA](https://www.atlassian.com/software/jira), etc).
+	2. Start a project within a task manager. (see [2Do](https://www.2doapp.com/), [Asana](https://asana.com), [Trello](https://trello.com/), [JIRA](https://www.atlassian.com/software/jira), etc).
 		* Your email inbox is not a task manager.
 		* Tasks should be actionable atoms.
 		* Set priorities, assignments, due dates, etc.
@@ -100,19 +100,18 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 	3. Slides
 		* Containing the current (summarized) version of the paper.
 		* Update it continuously. It will discipline your work.
-- Keep two folders: `/papers`, and `/data`.
-	1. Papers.
-		* Each folder within `/papers` is paper.
-	2. Data.
+- Keep two folders: `/papers`, and `/data`, as shown in the workflow.
+	1. Data.
 		* Each folder within `/data` is a data set.
 		* Use the same structure for cleaning these datasets (`/input`, `/src`, `/output`, `/tmp`)
-		* Then use `/main_paper/src/get_input.py` to copy original datasets.
+	2. Papers.
+		* Each folder within `/papers` is paper.
+		* Use `/main_paper/src/get_input.py` to copy original datasets.
 - Use a good text editor (I recommend [vim](http://www.vim.org/), [Sublime Text](https://www.sublimetext.com/) or [Notepad ++](https://notepad-plus-plus.org/)).
 - Use a modern and flexible communication tool (see [Slack](https://slack.com)).
 - Use a good reference/citation manager (I recommend [Mendeley](https://www.mendeley.com)). Let Mendeley (1) watch a downloads folder, (2) automatically organize every paper into a separate maintained folder in the cloud (Dropbox, Google Drive, etc.), and (3) keep a .bib file with all formatted citations in a `/references` folder. Let each paper be named "Author - Year - Title" (so you can search for PDFs efficiently). If you have a tablet to read and annotate papers, sync your reader (I recommend [PDF Expert](https://pdfexpert.com/)) to this folder. This way, all your annotations will automatically remain synced with Mendeley.
 - Keep documentation lean and clean.
 - Keep this folder organized. Your future self thanks your present effort.
-
 
 
 ## 5. Further Reading

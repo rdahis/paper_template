@@ -20,7 +20,9 @@ For more information, see Gentzknow & Shapiro (2014) Code and Data for the Socia
 
 ## 0. Workflow
 
-![](extra/workflow.pdf?raw=true)
+![a](https://github.com/rdahis/main_paper/raw/master/extra/workflow.pdf)
+![a](https://raw.githubusercontent.com/rdahis/main_paper/master/extra/workflow.pdf)
+![a](./extra/workflow.pdf)
 
 ## 1. Requirements
 
@@ -64,12 +66,6 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 ##### `/extra`
 - Contains any extra file relevant to the paper.
 - Examples: grant material, previous analyses.
-
-##### `/ref`
-- Keeps the paper references.
-- Suggestion of formatting
-  - Author 1 & Author 2 (Journal, Year) Title with Capitalized First Letters.pdf
-- Recommended auxiliary program: Mendeley.
 
 ##### `/products`
 - Where the juice is produced.
@@ -118,7 +114,7 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 		* Then use `/main_paper/src/get_input.py` to copy original datasets.
 - Use a good text editor (I recommend [vim](http://www.vim.org/), [Sublime Text](https://www.sublimetext.com/) or [Notepad ++](https://notepad-plus-plus.org/)).
 - Use a modern and flexible communication tool (see [Slack](https://slack.com)).
-- Use a good reference/citation manager (I recommend [Mendeley](https://www.mendeley.com)). Let Mendeley (1) watch a downloads folder, (2) automatically organize every paper into a separate maintained folder in the cloud (Dropbox, Google Drive, etc.), and (3) keep a .bib file with all formatted citations in a `/references` folder. Let each paper be named "Author - Year - Title" (so you can search for PDFs efficiently). If you have a tablet to read and annotate papers, sync your reader (I recommend [PDF Expert(https://pdfexpert.com/)) to this folder. This way, all your annotations will automatically remain synced with Mendeley.
+- Use a good reference/citation manager (I recommend [Mendeley](https://www.mendeley.com)). Let Mendeley (1) watch a downloads folder, (2) automatically organize every paper into a separate maintained folder in the cloud (Dropbox, Google Drive, etc.), and (3) keep a .bib file with all formatted citations in a `/references` folder. Let each paper be named "Author - Year - Title" (so you can search for PDFs efficiently). If you have a tablet to read and annotate papers, sync your reader (I recommend [PDF Expert](https://pdfexpert.com/)) to this folder. This way, all your annotations will automatically remain synced with Mendeley.
 - Keep documentation lean and clean.
 - Keep this folder organized. Your future self thanks your present effort.
 

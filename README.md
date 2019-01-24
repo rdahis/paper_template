@@ -65,12 +65,6 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 - Contains any extra file relevant to the paper.
 - Examples: grant material, previous analyses.
 
-##### `/ref`
-- Keeps the paper references.
-- Suggestion of formatting
-  - Author 1 & Author 2 (Journal, Year) Title with Capitalized First Letters.pdf
-- Recommended auxiliary program: Mendeley.
-
 ##### `/products`
 - Where the juice is produced.
 - Contains all files on preliminary results, the paper itself and presentations.

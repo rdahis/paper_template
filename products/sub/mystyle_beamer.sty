@@ -4,7 +4,10 @@
 \usepackage{transparent}
 \setbeamercovered{transparent}
 
-% Themes
+% define wideitemize.
+\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{10pt}}{\enditemize}
+
+% themes
 \usetheme{default} % many options of themes, check others
 \usecolortheme{orchid}
 \usefonttheme{professionalfonts}

@@ -117,6 +117,7 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 ## 5. Further Reading
 
 - [Gentzkow & Shapiro (2014) Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
+- [Julian Reif's Stata Coding Guide](https://reifjulian.github.io/guide)
 - [Gentzkow & Shapiro Lab's Paper Template](https://github.com/gslab-econ/template)
 - [Tutorial on how to combine Git and Dropbox](https://github.com/kbjarkefur/GitHubDropBox)
 

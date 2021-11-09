@@ -19,20 +19,20 @@ else:
         os.mkdir(path+folder)
         
     print "//-- Gets Input --//"
-    call(['python', path+'/src/get_input.py'])
+    call(['python', path+'/code/get_input.py'])
 
     print "//-- Runs Build --//"
-    call(['stata', '-b', 'do' + '\"' + path+'/src/build.do'+'\" &'])
+    call(['stata', '-b', 'do' + '\"' + path+'/code/build.do'+'\" &'])
     for file in glob.glob(path+'/*.log'):
         os.remove(file)
     
     print "//-- Runs Analysis --//"
-    call(['stata', '-b', 'do' + '\"' + path+'/src/analysis.do'+'\" &'])
+    call(['stata', '-b', 'do' + '\"' + path+'/code/analysis.do'+'\" &'])
     for file in glob.glob(path+'/*.log'):
         os.remove(file)
     
 	print "//-- Compiles TeX --//"
-	call(['latexmk', path+'/tex/paper/main_article.tex')
+	call(['latexmk', path+'/products/paper/main_article.tex')
 
 	print "Congratulations, you have a shiny new paper!"
 

@@ -121,4 +121,4 @@ For now it's only adapted for OSX (Apple) environments. But feel free to adapt i
 - [Michael Stepner's Coding Style Guide](https://github.com/michaelstepner/healthinequality-code/blob/master/code/readme.md)
 - [Gentzkow & Shapiro Lab's Paper Template](https://github.com/gslab-econ/template)
 - [Tutorial on how to combine Git and Dropbox](https://github.com/kbjarkefur/GitHubDropBox)
-
+- [Guidelines on how to name git commits](https://www.conventionalcommits.org)

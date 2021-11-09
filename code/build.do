@@ -31,13 +31,13 @@ log using "output/build.log", replace
 //----------------------------------------------------------------------------//
 
 // build
-	do "src/sub/build_datasets.do"
+	do "code/sub/build_datasets.do"
 
 // merge
-	do "src/sub/build_merge.do"
+	do "code/sub/build_merge.do"
 
 // covariates
-	do "src/sub/build_covariates.do"
+	do "code/sub/build_covariates.do"
 
 // compress and Save
 	compress

@@ -33,12 +33,12 @@ use "output/data/data.dta", clear
 //----------------------------------------------------------------------------//
 
 // tables
-	do "src/sub/analysis_tables.do"
+	do "code/sub/analysis_tables.do"
 
 // figures
-	do "src/sub/analysis_figures.do"
+	do "code/sub/analysis_figures.do"
 
 // regressions
-	do "src/sub/analysis_regressions.do"
+	do "code/sub/analysis_regressions.do"
 
 log close

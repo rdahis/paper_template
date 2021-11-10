@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Dahis"
+  given-names: "Ricardo"
+title: "Template Repository for Research Papers"
+date-released: 2021-11-10
+url: "https://github.com/rdahis/paper_template"

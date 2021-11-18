@@ -5,6 +5,7 @@ It organizes every step of the process: merging and cleaning (several) data sets
 
 **To use it**: simply download it or fork it and adapt it to your own project!
 
+This is a test.
 
 ## Summary
 0. Workflow

@@ -54,8 +54,8 @@ You're good to go. This repository is now ready for the standard workflow descri
 - Other output files should be redirected into `/output/tables/` or `/output/figures/`.
 - Keep all code clean and modularized.
 
-  `/sub`
-  - Holds modularized code to implement subroutines for build and analysis code.
+    `/sub`
+    - Holds modularized code to implement subroutines for build and analysis code.
   
 ##### `/input`
 
@@ -85,9 +85,8 @@ You're good to go. This repository is now ready for the standard workflow descri
 
 - Versioned folder containing files for preliminary results, papers, talks, and others.
 
-  `/sub`
-  - Curated set of packages and shortcuts commonly used in Social Science papers and presentations.
-
+    `/sub`
+    - Curated set of packages and shortcuts commonly used in Social Science papers and presentations.
 ## 4. Files
 
 ##### `run_paper.py`

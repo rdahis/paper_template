@@ -1,6 +1,10 @@
 .DS_Store
 
+input
 input/
+output/data
 output/data/
-output/log/
+output/logs
+output/logs/
+tmp
 tmp/

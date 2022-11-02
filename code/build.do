@@ -30,17 +30,10 @@ log using "output/build.log", replace
 // main
 //----------------------------------------------------------------------------//
 
-// build
-	do "code/sub/build_datasets.do"
+// clean input files
+	do "code/sub/build_clean_input_files.do"
 
-// merge
-	do "code/sub/build_merge.do"
-
-// covariates
-	do "code/sub/build_covariates.do"
-
-// compress and Save
-	compress
-	save "output/data/data.dta", replace
+// assemble data at <observation_level>
+	do "code/sub/build_assemble_<observation_level>.do"
 
 log close

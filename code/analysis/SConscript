@@ -1,0 +1,24 @@
+# code/analysis/SConscript -- tables (tab_*), figures (fig_*) and the values the
+# paper cites. Draft new blocks with
+#   python3 code/scons/extract_deps.py code/analysis code/data
+# and review them. R() adds the log and the provenance record as targets.
+
+Import('R', 'Py', 'Stata', 'outputs', 'inputs')
+
+# --- tab_example.R
+R(
+    ['#output/tables/tab_example.tex'],
+    [
+        '#code/analysis/tab_example.R',
+        '#data/clean/unit.rds',
+    ],
+)
+
+# --- fig_example.R
+R(
+    ['#output/figures/fig_example.pdf'],
+    [
+        '#code/analysis/fig_example.R',
+        '#data/clean/unit.rds',
+    ],
+)

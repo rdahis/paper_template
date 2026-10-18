@@ -1,0 +1,3 @@
+# latexmk configuration: pdfLaTeX, shared styles from ../sub.
+$pdf_mode = 1;
+ensure_path('TEXINPUTS', '../sub//', '../');

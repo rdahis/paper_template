@@ -1,0 +1,6 @@
+# latexmk configuration: XeLaTeX + biber, shared styles from ../sub.
+# Compile with `scons paper` from the repository root, or `latexmk main.tex` here.
+$pdf_mode = 5;          # xelatex
+$bibtex_use = 2;        # run biber when needed, clean .bbl with -c
+ensure_path('TEXINPUTS', '../sub//', '../');
+

@@ -1,0 +1,13 @@
+# code/data/SConscript -- data steps. Draft new blocks with
+#   python3 code/scons/extract_deps.py code/data code/analysis
+# and review them. Every path is repo-relative ('#'); the first source is the
+# script. R() adds the log and the provenance record as targets itself.
+# Server-only steps go under `if HIGH_MEM:`; elsewhere their outputs are inputs.
+
+Import('R', 'Py', 'Stata', 'outputs', 'inputs', 'HIGH_MEM')
+
+# --- simulate_example.R
+R(
+    ['#data/clean/unit.rds'],
+    ['#code/data/simulate_example.R'],
+)

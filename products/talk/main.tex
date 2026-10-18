@@ -1,0 +1,31 @@
+\documentclass[12pt]{beamer}
+
+% Packages and Formatting
+\usepackage{mystyle_general}
+\usepackage{mystyle_beamer}
+% Values and exhibits come from the same build as the paper. A talk has no
+% margins for passage flags, so it loads final; prov.py --doc products/talk/main.tex
+% status still tracks its frames as passages if they are labelled.
+\usepackage[final, status=talk]{provenance}
+
+\title{Paper Title}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Main result}
+\begin{itemize}
+  \item Treatment raises the outcome by \val{beta_treated} units
+        (\val{beta_treated_pct_mean}\% of the control mean).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Estimates}
+\centering
+\exhibit{tables/tab_example.tex}
+\end{frame}
+
+\end{document}

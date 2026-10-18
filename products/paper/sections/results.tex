@@ -1,0 +1,40 @@
+\section{Results}\label{sec:results}
+
+\subsection{Main estimates}\label{sec:results-main}
+
+\Cref{tab:main} reports the estimates. Conditional on $x$, treatment raises the
+outcome by \val{beta_treated} (standard error \val{se_treated}), which is
+\val{beta_treated_pct_mean} percent of the control mean.
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Effect of treatment on the outcome}\label{tab:main}
+\exhibit{tables/tab_example.tex}
+\begin{tablenotes}\small
+\item \textit{Notes:} OLS estimates; standard errors in parentheses. Sample of
+\val{n_units} simulated units. Source: \path{code/analysis/tab_example.R}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Heterogeneity}\label{sec:results-heterogeneity}
+
+\Cref{fig:main} plots the outcome against the covariate by treatment status.
+
+\begin{figure}[htbp]
+\centering
+\exhibitgraphic[width=0.8\textwidth]{figures/fig_example.pdf}
+\caption{Outcome and covariate by treatment status}\label{fig:main}
+\begin{minipage}{0.9\textwidth}\footnotesize
+\textit{Notes:} Each point is a unit; lines are OLS fits within group.
+Source: \path{code/analysis/fig_example.R}.
+\end{minipage}
+\end{figure}
+
+% An explicit passage is a finer unit than a subsection: it is tracked, and
+% signed off, on its own.
+\begin{passage}{results-magnitude}[code/analysis/tab_example.R]
+The slope is parallel across groups, so a single treatment coefficient of
+\val{beta_treated} summarises the shift.
+\end{passage}

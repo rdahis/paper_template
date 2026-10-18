@@ -1,0 +1,26 @@
+# Runs the toy pipeline end to end and checks that provenance flags what it
+# should. Only in the template repository itself: a paper made from the
+# template has real data that CI cannot reach. Delete this file in a new paper.
+name: template self-test
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  selftest:
+    if: github.repository == 'rdahis/paper_template'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - run: Rscript -e 'install.packages("here", repos = "https://cloud.r-project.org")'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install scons
+      - run: bash .github/scripts/selftest.sh

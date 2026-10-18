@@ -1,0 +1,72 @@
+# Checks that need no data. The pipeline itself cannot run here: data/ and
+# ../../data/ are not in git, and the heavy steps may need the server.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  r-parse:
+    name: R scripts parse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - run: Rscript --vanilla .github/scripts/parse_r.R
+
+  python:
+    name: Python compiles, SConstruct loads, provenance lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install scons
+      - run: python -m compileall -q code .github/scripts
+      # Reading the SConscripts catches a malformed declaration or two scripts
+      # with the same stem; -n builds nothing.
+      - run: scons -n -Q > /dev/null
+      # Passage ids unique, passages well nested, declared files exist,
+      # sign-offs in provenance.lock still match a passage.
+      - run: python code/provenance/prov.py lint products/paper/main.tex products/talk/main.tex
+
+  repo:
+    name: Data files, orphan scripts, banned patterns
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # Banned patterns are checked on added lines only, against the PR base
+      # (or the previous commit on push).
+      - run: python .github/scripts/check_repo.py --base "$BASE"
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+
+  secrets:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    # gitleaks lists the PR's commits through the API.
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

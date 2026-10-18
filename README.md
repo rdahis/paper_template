@@ -1,174 +1,214 @@
+# Paper Template
 
-This folder provides an all-encompassing working structure for empirical papers.
+A working structure for empirical papers with several coauthors. It has three parts:
+1. A shared Dropbox folder for data, with one git clone per coauthor.
+2. An SCons build that reruns only what changed, from raw data to compiled paper.
+3. A provenance layer that records where each number, table and figure came from, and flags any passage written against results that have since changed.
 
-It organizes every step of the process: merging and cleaning (several) data sets, performing analyses (tables, figures, regressions), writing the paper and talks themselves, and submitting it to journals.
+Start a new paper with the `/new-paper` Claude Code skill, or by hand as described in **Setup** below.
 
-**To use it**: follow the setup instructions below.
+## Layout
 
-## Summary
-0. Workflow
-1. Requirements
-2. Setup
-3. Folders
-4. Files
-5. Leveraging on Github Capabilities
-6. Writing
-7. Journal Submissions
-8. Principles
-9. Further Reading
+```
+<Paper>/                              Dropbox: ~/Dropbox/Academic/Papers/<Paper>/
+├── data/
+│   ├── raw/                          raw inputs, never modified, shared
+│   └── intermediate/                 heavy intermediates built on the server, shared
+└── github/
+    ├── ricardo/                      one clone of this repository per coauthor
+    └── coauthor/
+        ├── SConstruct                the build
+        ├── setup.sh                  run once per clone
+        ├── code/
+        │   ├── setup.R               sourced by every R script
+        │   ├── data/                 clean_*, assemble_* -> data/intermediate, data/clean
+        │   ├── analysis/             tab_*, fig_* -> output/tables, output/figures
+        │   ├── functions/            shared helpers
+        │   ├── scons/extract_deps.py drafts SConscript blocks from R source
+        │   └── provenance/           run records, save_value(), prov.py
+        ├── data/{intermediate,clean}/  built locally            (not in git)
+        ├── output/{tables,figures,logs,provenance}/  built      (not in git)
+        ├── tmp/                                                 (not in git)
+        └── products/
+            ├── paper/                main.tex, sections/, references.bib, provenance.lock
+            ├── talk/
+            └── sub/                  shared styles, provenance.sty
+```
 
-## 0. Workflow
+Each coauthor's clone reads shared data at `../../data/raw/`. Built files stay inside the clone and out of git, so two coauthors never overwrite each other's builds. Dropbox syncs the clones, which lets you open a coauthor's branch without checking it out yourself. Git remains the record of what changed.
 
-![](extra/workflow.png)
+## Setup
 
-## 1. Requirements
+1. Create `<Paper>/data/raw/` and `<Paper>/github/` in the shared Dropbox folder.
+2. Clone the repository into `<Paper>/github/<you>/`.
+3. Run `bash setup.sh`. It creates the local folders and checks for `scons`, `Rscript`, `latexmk` and `git`.
+4. Run `scons -k`, then `scons -k paper`.
 
-This workflow requires:
-- [Bash](https://www.gnu.org/software/bash/) [Free]
-- [Python](https://www.python.org) [Free] 
-- [LaTeX](https://www.latex-project.org) [Free]
+Requirements: [SCons](https://scons.org) (`brew install scons`), Python 3, R, and a TeX distribution with `latexmk`, XeLaTeX and biber. Stata is supported but optional.
 
-Other great languages and softwares may also be used.
-- [R](https://www.r-project.org) [Free]
-- [Stata](https://www.stata.com) [Licensed]
-- [Matlab](https://www.mathworks.com/products/matlab) [Licensed]
+## Building
 
-For now it is only adapted for OSX (Apple) environments. But feel free to adapt it to Windows (and please share it with me!).
+```bash
+scons -k                  # every out-of-date data step, table, figure and value
+scons -k paper            # ... and products/paper/main.pdf
+scons -k paper FINAL=1    # the PDF without provenance colours and tags
+scons status              # what needs re-reading or rebuilding, and why
+scons -n                  # dry run
+scons --debug=explain -n  # why each target would rebuild
+```
 
-## 2. Setup
+A target rebuilds when its script, `code/setup.R`, or a declared input changed. Each script is declared once in `code/data/SConscript` or `code/analysis/SConscript`, with its outputs as targets and the files it reads as sources:
 
-1. Create or join a cloud folder (e.g. on Dropbox or Drive) where large non-versioned files will reside.
-2. Clone this repository to a local folder *outside* the cloud folder.
-3. Fill out the correct environment paths in `setup.sh`.
-4. Run `sh setup.sh` to create symbolic links to all non-versioned folders.
+```python
+R(['#output/tables/tab_main.tex'],
+  ['#code/analysis/tab_main.R', '#data/clean/unit-year.rds'])
+```
 
-You're good to go. This repository is now ready for the standard workflow described below.
+`Py()` and `Stata()` declare Python and Stata scripts the same way. Draft the blocks for a whole folder with `python3 code/scons/extract_deps.py code/analysis code/data`, then review them. A script whose paths are built at run time needs its block written by hand. **An input that is not declared is not tracked.**
 
-## 3. Folders
+Two options from Structural Transformation and Politics carry over:
+- **Server-only steps:** a SConscript declares them under `if HIGH_MEM:`. On a laptop their cached outputs in `../../data/intermediate/` are read as inputs.
+- **Copied data:** on a machine whose `data/` was copied from elsewhere, `scons -k ADOPT=1` records the files on disk as built, without running anything.
 
-##### `/code`
+## Provenance
 
-- Versioned folder containing code that builds data and performs analyses.
-- All output data should be redirected into `/output/data/`, with one data file per observation level.
-- All output logs should be redirected into `/output/logs/`.
-- Other output files should be redirected into `/output/tables/` or `/output/figures/`.
-- Keep all code clean and modularized.
+Fast development leaves the draft out of sync with the code. A number gets typed from an old log. A paragraph describes a sample restriction that has since moved. A table is regenerated, but the sentence interpreting it is not. The provenance layer records what every number, exhibit and passage was built from, and reports which ones are out of date.
 
-    `/sub`
-    - Holds modularized code to implement subroutines for build and analysis code.
-  
-##### `/input`
+### Numbers: `save_value()` and `\val{}`
 
-- Symbolic link to non-versioned folder with input data.
-- Any original data source should be included here in clean and normalized form.
-- Only include cleaned files. Raw external files should be cleaned in each data source specific folder.
-- These data sets will then be manipulated and merged by the files in `/code`.
-  
-##### `/output`
+Scripts save the numbers the text cites, and the paper refers to them by key:
 
-- Symbolic link to non-versioned folder with output data.
-- Holds built data sets in `/output/data/`, to be then used in analysis code.
-- Contains all analysis objects generated by files in `/code`.
-- Will then serve as source for the generation of `.tex` files inside `/products/`.
+```r
+save_value("beta_main", coef(m)[["treated"]], digits = 3)   # R
+save_value("n_units", nobs(m))                               # 2,000
+```
+```python
+from save_value import save_value                            # Python
+save_value("beta_main", fit.params["treated"], digits=3)
+```
+```stata
+save_value beta_main, value(_b[treated]) format(%9.3f)       // Stata
+```
+```latex
+Treatment raises the outcome by \val{beta_main} units.
+```
 
-##### `/tmp`
+The paper never contains a hand-typed result. In the draft PDF, generated numbers are blue and show their script, commit and build time on hover. **A black number is one somebody typed.** A number shows in orange when it was built from uncommitted code, and an undefined key shows as a red `??key??`.
 
-- Symbolic link to non-versioned folder with temporary files.
-- Contains any temporary file created during the manipulation of input data sets or the analysis routine.
+### Exhibits: `\exhibit{}` and `\exhibitgraphic{}`
 
-##### `/extra`
+```latex
+\exhibit{tables/tab_main.tex}                         % \input from output/
+\exhibitgraphic[width=.8\textwidth]{figures/fig_main.pdf}
+```
 
-- Contains any extra file relevant to the paper.
-- Examples: grant materials, previous analyses, submissions.
+Every generated `.tex` table starts with a comment naming its script, commit and build time. In the draft PDF, each exhibit carries the same tag underneath. If the code or data behind an exhibit changed after it was built, the tag reads `STALE`.
 
-##### `/products`
+### Run records
 
-- Versioned folder containing files for preliminary results, papers, talks, and others.
+Every script SCons runs writes `output/provenance/records/<script>.json`. The record holds:
+- the commit, and any code inputs that differed from it;
+- who built it, on which machine, and when;
+- the content hash of every input and output;
+- the values the script saved.
 
-    `/sub`
-    - Curated set of packages and shortcuts commonly used in Social Science papers and presentations.
-## 4. Files
+Linked through their inputs and outputs, the records form a tree from each exhibit back to raw data. `prov.py` compares the hashes in that tree with the files on disk now.
 
-##### `run_paper.py`
+### Passages and sign-off
 
-- Automates the whole paper construction.
-- Runs everything in a pre-specified order, from beginning (building data sets) to end (compiling `.tex` files).
-- Keeps clear what should be run when.
-- Also cleans `/output` and `/tmp` folders before running other code.
+Every `\section` and `\subsection` is a passage, identified by its `\label`. A finer unit can be wrapped in a `passage` environment:
 
-##### `/code/get_input.py`
+```latex
+\begin{passage}{results-magnitude}[code/analysis/tab_main.R]
+...
+\end{passage}
+```
 
-- Erases any file inside `/input` and copies any original data set from outside sources.
-- Ensures consistency across original data generation and data building for paper.
+A passage depends on three kinds of thing:
+1. every `\val` in it;
+2. every exhibit in it, plus any exhibit it `\cref`s;
+3. every file named in `\dependson{...}`, or in the passage's optional argument (globs allowed).
 
-## 5. Leveraging on Github capabilities
+Use `\dependson` for prose that describes code rather than citing outputs. The empirical-strategy section is the typical case: `\dependson{code/functions/designs.R}`.
 
-- Use issues as tasks. Track it all on a project board named "Tasks".
-	- Add tags to tasks to track progress by area. Some template tags included: `build`, `analysis`, `writing`, `review`, `enhancement`, `bug`.
-- Name commits following [conventional notation](https://www.conventionalcommits.org).
-- Add forward-looking tags and milestones to plan and version work.
-	- These help marking relevant releases, such as a minimum viable product (MVP), a paper submission, or a talk.
-	- Use [semantic versioning](https://semver.org/) for naming, e.g. `v0.1`, `v1.0.2`.
-- Only modify files via pull requests. Use closing keywords to close issues.
+Signing off records what a passage depended on when someone last checked it:
 
-## 6. Writing
+```bash
+python3 code/provenance/prov.py signoff sec:results     # one passage (globs allowed: 'sec:*')
+python3 code/provenance/prov.py signoff --clean         # every unsigned passage without issues
+```
 
-All writing should be done within the repository to preserve versioning and consistency.
+The sign-offs live in `products/paper/provenance.lock`. Commit the lock together with the text it vouches for. From then on, each passage is in one of five states:
 
-- Keep a set of continuously-updated slides reflecting the current state and vision of the project.
-- Sync this repository with online LaTeX editing tools, such as [Overleaf](https://www.overleaf.com/), for simultaneous editing and comments.
-	- Follow these instructions to [integrate Overleaf with Dropbox](https://www.overleaf.com/learn/how-to/Dropbox_Synchronization).
-	- Sync Overleaf project to a folder `/products/paper`.
-	- **Important**: the project's "true" state stays in Github. Thus, things always have to be committed on Github after edits.
-- Keep all `.bib` references organized in `/extra/references/library.bib`. See principle about reference manager systems below.
+| State | Meaning | Margin of the draft PDF |
+|---|---|---|
+| ok | nothing it depends on changed since sign-off | — |
+| pending | its inputs are unchanged, but an upstream script or data file changed, so the next build will change something it cites | orange |
+| changed | a value, exhibit or declared file differs from sign-off; the report lists old → new | red |
+| broken | it cites a value or exhibit that does not exist | red |
+| unsigned | nobody has signed it off | grey, with the `unsigned` package option |
 
-## 7. Journal Submissions
+### Commands
 
-Use this folder and Github for working on reviewing drafts (e.g. after a Revise and Resubmit request).
+```bash
+python3 code/provenance/prov.py status              # what needs attention (scons status)
+python3 code/provenance/prov.py status --strict     # exit 1 if anything is stale: run before circulating
+python3 code/provenance/prov.py tree sec:results    # dependency tree of a passage, down to raw data
+python3 code/provenance/prov.py impact code/data/clean_x.R   # everything downstream of a change
+python3 code/provenance/prov.py values              # every value, its script and commit
+python3 code/provenance/prov.py lint                # checks that need no build (run in CI)
+```
 
-Flow:
-1. Centralize all numbered comments in one document uploaded to `/extra/submissions/journal/comments.txt`.
-2. Assign comments to issues with clear tasks described in text. Assign issues to people, add tags, add milestone for "journal resubmission", etc. Add issue numbers below each review comment so that it can be tracked 1:1.
-3. Work on issues, add sentences/paragraphs together with commit messages describing changes made to code and writing.
-4. As issues start to be closed via PRs, put together a 'release' text, which will feed into letter to the editor and referees.
-5. When all is done, set a tag for the release and send it off for the journal.
+Example, after changing the data step but before rebuilding:
 
-Use tags: `review`, `build`, `analysis`, `writing`, `negative replies`.
+```
+PENDING  sec:results-main  "Main estimates"  products/paper/sections/results.tex:3
+           upstream: input data/clean/unit.rds is stale (rebuild code/data/simulate_example.R)
+```
 
-## 8. Principles
+After `scons -k`:
 
-- For each new project, start (i) a structured versioned folder, (ii) a task manager project, and (iii) a set of slides.
-	1. Copy this folder and use a version control system (e.g. [Git](https://git-scm.com/)).
-		* Keep track of multiple authors' edits.
-		* No more `report_final_v3.2b_ST_toDelete.tex`.
-		* Use branching to work simultaneously on code.
-	2. Use Github's issues and projects as a task management system. (For other tools, see [ClickUp](https://clickup.com/), [2Do](https://www.2doapp.com/), [Asana](https://asana.com), [Trello](https://trello.com/), and [JIRA](https://www.atlassian.com/software/jira)).
-		* Your email inbox is not a task manager.
-		* Tasks should be actionable atoms.
-		* Set priorities, assignments, due dates, etc.
-		* Only one person should be ultimately responsible for each task.
-		* Do regular reviews and cleaning.
-	3. Slides
-		* Containing the current (summarized) version of the paper.
-		* Update it continuously. It will discipline your work.
-- Keep two folders: `/papers`, and `/data`, as shown in the workflow.
-	1. Data.
-		* Each folder within `/data` is a data set.
-		* Use the same structure for cleaning these datasets (e.g. `/code`, `/input`, `/output`, `/tmp`)
-	2. Papers.
-		* Each folder within `/papers` is paper.
-		* Use `/main_paper/code/get_input.py` to copy original datasets.
-- Use a good text editor (I recommend [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), [Notepad ++](https://notepad-plus-plus.org/), or [vim](http://www.vim.org/)).
-- Use a modern and flexible communication tool (see [Discord](https://discord.com/) or [Slack](https://slack.com)).
-- Use a good reference/citation manager (I recommend [Mendeley](https://www.mendeley.com)). Let Mendeley (1) watch a downloads folder, (2) automatically organize every paper into a separate maintained folder in the cloud (Dropbox, Google Drive, etc.), and (3) keep a .bib file with all formatted citations in a `/references` folder. Let each paper be named "Author - Year - Title" (so you can search for PDFs efficiently). If you have a tablet to read and annotate papers, sync your reader (I recommend [PDF Expert](https://pdfexpert.com/)) to this folder. This way, all your annotations will automatically remain synced with Mendeley.
-- Keep documentation lean and clean.
-- Keep this folder organized. Your future self thanks your present effort.
+```
+CHANGED  sec:results-main  "Main estimates"  products/paper/sections/results.tex:3
+           out:tables/tab_example.tex: df5b1698 -> 6610158e (code/analysis/tab_example.R @ a19226d)
+           val:beta_treated: 0.296 -> 0.196 (code/analysis/tab_example.R @ a19226d)
+```
 
-## 9. Further Reading
+### What it cannot do
 
-- [Gentzkow & Shapiro (2014) Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
-- [Julian Reif's Stata Coding Guide](https://reifjulian.github.io/guide)
-- [Michael Stepner's Coding Style Guide](https://github.com/michaelstepner/healthinequality-code/blob/master/code/readme.md)
-- [Gentzkow & Shapiro Lab's Paper Template](https://github.com/gslab-econ/template)
-- [Tutorial on how to combine Git and Dropbox](https://github.com/kbjarkefur/GitHubDropBox)
-- [Guidelines on how to name git commits](https://www.conventionalcommits.org)
+Provenance cannot tell that a passage is wrong. It can only tell that something the passage depends on changed since a person last checked it. A dependency that is neither cited (`\val`, `\exhibit`) nor declared (`\dependson`) is invisible to it. Coverage is therefore only as good as the declarations, and it improves the more the text cites through `\val` and `\exhibit`.
+
+## Continuous integration
+
+`.github/workflows/checks.yml` runs on every pull request. Its checks need no data:
+
+| Check | What it catches |
+|---|---|
+| R scripts parse | syntax errors, before a long build reaches them |
+| Python compiles, SConstruct loads, provenance lint | malformed SConscripts, two scripts with the same name, duplicate passage ids, `\dependson` paths that do not exist, sign-offs for deleted passages |
+| Repository checks | tracked data files or files over 5 MB; scripts not declared in a SConscript; added lines that call `setwd()`, `rm(list = ls())` or `install.packages()`, or hardcode an absolute path |
+| Secret scan | credentials committed by mistake (gitleaks) |
+
+`template-selftest.yml` runs the toy pipeline end to end, but only in `rdahis/paper_template`. Delete it in a new paper.
+
+## Starting from the toy example
+
+The template ships a toy pipeline to show every piece working:
+- `simulate_example.R` writes simulated data;
+- `tab_example.R` and `fig_example.R` build a table and a figure and save values;
+- the paper sections cite them.
+
+To make it your paper, delete the toy scripts and their blocks in the SConscripts, then replace the section text. Keep the `\label`s on sections and subsections: they are the passage ids.
+
+## Working conventions
+
+- **Issues are tasks.** One person is responsible for each, and each carries a label (`build`, `analysis`, `writing`, `review`).
+- **Branches and pull requests.** All changes go through pull requests, with [conventional commit](https://www.conventionalcommits.org) messages.
+- **Revisions.** For an R&R, give each referee comment its own issue and record the issue number next to the comment. Once all of them are closed, the response letter follows from the pull requests.
+- **Data documentation.** One `data/clean/<level>.rds` per observation level (`unit-year.rds`), and every cleaning step named for its source (`clean_<source>.R`).
+
+## Further reading
+
+- [Gentzkow & Shapiro (2014), Code and Data for the Social Sciences](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)
+- [Gentzkow & Shapiro Lab's template](https://github.com/gslab-econ/template)
+- [Julian Reif's Stata coding guide](https://reifjulian.github.io/guide)

@@ -1,0 +1,143 @@
+% provenance.sty -- values, exhibits and passages that know where they came from.
+%
+%   \usepackage[draft]{../sub/provenance}      load LAST, after hyperref and cleveref
+%
+% Options
+%   draft | final   draft (default) colours generated numbers, tags exhibits with
+%                   their script and commit, and flags passages that need
+%                   re-reading in the margin. final typesets plain values only.
+%                   `scons paper FINAL=1` forces final without editing the file.
+%   out=<dir>       the output/ folder, relative to the document (../../output)
+%   status=<name>   reads <out>/provenance/status-<name>.tex (paper)
+%   unsigned        also flag passages nobody has signed off yet
+%
+% Commands
+%   \val{key}                         a number saved by save_value() in a script
+%   \exhibit{tables/x.tex}            \input a generated table from <out>/
+%   \exhibitgraphic[opts]{figures/x.pdf}  \includegraphics a generated figure
+%   \begin{passage}{id}[deps] ... \end{passage}   a finer unit than a subsection
+%   \dependson{code/functions/x.R, ...}   declare what the surrounding text describes
+%
+% In draft mode a generated number is blue (orange if built from uncommitted
+% code) and shows its script, commit and build time on hover. A hand-typed
+% number stays black, which is the point: anything black that should be blue
+% was copied by hand. Colours in the margin: red CHANGED (something it cites
+% changed since sign-off), orange PENDING (an upstream rebuild will change it),
+% red BROKEN (cites a value or exhibit that does not exist), grey UNSIGNED.
+% Hover over the box for the details; `python3 code/provenance/prov.py status`
+% prints the same list.
+
+\NeedsTeXFormat{LaTeX2e}[2023/06/01]
+\ProvidesPackage{provenance}[2026/10/18 v1.0 build provenance for values, exhibits and passages]
+
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions{family=prov, prefix=prov@}
+\DeclareStringOption[../../output]{out}
+\DeclareStringOption[paper]{status}
+\DeclareBoolOption[true]{draft}
+\DeclareComplementaryOption{final}{draft}
+\DeclareBoolOption{unsigned}
+\ProcessKeyvalOptions*
+\ifdefined\provfinal \prov@draftfalse \fi
+
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+% Loaded in final mode too: the .aux of a draft run calls its macros, so
+% switching modes without it breaks the next compile.
+\RequirePackage{pdfcomment}
+
+\colorlet{prov@ok}{blue!60!black}
+\colorlet{prov@dirty}{orange!85!black}
+\colorlet{prov@tag}{black!45}
+\colorlet{prov@state@changed}{red!75!black}
+\colorlet{prov@state@broken}{red!75!black}
+\colorlet{prov@state@pending}{orange!90!black}
+\colorlet{prov@state@unsigned}{black!40}
+
+\newif\ifprov@undefined
+
+% --- registry: written by SCons from the run records -----------------------
+% \provvalue{key}{text}{script}{commit}{built}
+\newcommand\provvalue[5]{%
+  \@namedef{prov@v@#1}{#2}%
+  \@namedef{prov@m@#1}{\detokenize{#1} | #3 @ #4 | #5}%
+  \in@{+dirty}{#4}%
+  \ifin@ \@namedef{prov@c@#1}{prov@dirty}\else \@namedef{prov@c@#1}{prov@ok}\fi}
+% \provexhibit{path}{script}{commit}{built}
+\newcommand\provexhibit[4]{%
+  \@namedef{prov@x@#1}{#2 @ #3, #4}%
+  \in@{+dirty}{#3}%
+  \ifin@ \@namedef{prov@xc@#1}{prov@dirty}\else \@namedef{prov@xc@#1}{prov@tag}\fi}
+
+% --- status: written by prov.py status --tex --------------------------------
+\newcommand\provpassagestatus[3]{\@namedef{prov@ps@#1}{#2}\@namedef{prov@pd@#1}{#3}}
+\newcommand\provexhibitstatus[3]{\@namedef{prov@xs@#1}{#3}}
+
+\AtBeginDocument{%
+  \InputIfFileExists{\prov@out/provenance/registry.tex}{}{%
+    \PackageWarningNoLine{provenance}{No \prov@out/provenance/registry.tex yet: run scons}}%
+  \ifprov@draft
+    \InputIfFileExists{\prov@out/provenance/status-\prov@status.tex}{}{}%
+    \setlength\marginparwidth{0.85in}%
+    \setlength\marginparsep{0.08in}%
+  \fi}
+\AtEndDocument{\ifprov@undefined
+  \PackageWarningNoLine{provenance}{There were undefined values (shown as ??key??)}\fi}
+
+% --- values ------------------------------------------------------------------
+\NewDocumentCommand\val{m}{%
+  \@ifundefined{prov@v@#1}{%
+    \PackageWarning{provenance}{Value `#1' undefined}%
+    \global\prov@undefinedtrue
+    \textbf{\textcolor{red}{??\detokenize{#1}??}}}{%
+    \ifprov@draft
+      \pdftooltip{\textcolor{\@nameuse{prov@c@#1}}{\@nameuse{prov@v@#1}}}{\@nameuse{prov@m@#1}}%
+    \else
+      \@nameuse{prov@v@#1}%
+    \fi}}
+
+% --- exhibits ----------------------------------------------------------------
+\NewDocumentCommand\exhibit{m}{\input{\prov@out/#1}\prov@tag{#1}}
+\NewDocumentCommand\exhibitgraphic{O{}m}{\includegraphics[#1]{\prov@out/#2}\prov@tag{#2}}
+
+\newcommand\prov@tag[1]{%
+  \ifprov@draft
+    \par\nobreak\vspace{1pt}%
+    {\centering\fontsize{6}{7}\selectfont\ttfamily
+     \@ifundefined{prov@x@#1}{%
+       \textcolor{red}{[no run record for \detokenize{#1}: build it with scons]}}{%
+       \@ifundefined{prov@xs@#1}{%
+         \textcolor{\@nameuse{prov@xc@#1}}{[\@nameuse{prov@x@#1}]}}{%
+         \pdftooltip{\textcolor{prov@state@pending}{[STALE: \@nameuse{prov@x@#1}]}}{\@nameuse{prov@xs@#1}}}}%
+     \par}%
+  \fi}
+
+% --- passages ----------------------------------------------------------------
+\def\prov@unsignedstr{unsigned}
+\newcommand\prov@mark[1]{%
+  \edef\prov@state{\@nameuse{prov@ps@#1}}%
+  \ifx\prov@state\prov@unsignedstr
+    \ifprov@unsigned \prov@margin{#1}\fi
+  \else
+    \prov@margin{#1}%
+  \fi}
+\newcommand\prov@margin[1]{%
+  \marginpar{\raggedright\fontsize{7}{8}\selectfont\sffamily
+    \pdftooltip{\colorbox{prov@state@\prov@state}{\textcolor{white}{\strut\MakeUppercase{\prov@state}}}}%
+               {\detokenize{#1}: \@nameuse{prov@pd@#1}}}}
+% Defer the margin note to the next paragraph: a \label right after a heading
+% sits in vertical mode, where a note would detach from the text it flags.
+\newcommand\prov@flag[1]{%
+  \ifprov@draft
+    \@ifundefined{prov@ps@#1}{}{%
+      \ifhmode \prov@mark{#1}\else \AddToHookNext{para/begin}{\prov@mark{#1}}\fi}%
+  \fi}
+
+% Every \label of a section or subsection is a passage id; floats are skipped,
+% since a margin note cannot live inside one.
+\AddToHookWithArguments{label}{\@ifundefined{@captype}{\prov@flag{#1}}{}}
+
+\NewDocumentEnvironment{passage}{m o}{\prov@flag{#1}}{}
+\newcommand\dependson[1]{\@bsphack\@esphack}
+
+\endinput
